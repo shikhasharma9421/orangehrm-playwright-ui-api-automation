@@ -13,8 +13,8 @@ export class LoginPage {
     this.page = page;
     this.usernameField = page.locator('input[name="username"]');
     this.passwordField = page.locator('input[name="password"]');
-    this.loginButton = page.locator('button[type="submit"]');
-    this.errorMessage = page.locator('.oxd-alert-content-text');
+    this.loginButton   = page.locator('button[type="submit"]');
+    this.errorMessage  = page.locator('.oxd-alert-content-text');
     this.requiredMessages = page.locator('.oxd-input-field-error-message');
   }
 
@@ -38,5 +38,9 @@ export class LoginPage {
 
   async verifyRequiredMessages(count: number) {
     await expect(this.requiredMessages).toHaveCount(count);
+  }
+
+  async verifyRequiredMessageText(index: number, message: string) {
+    await expect(this.requiredMessages.nth(index)).toHaveText(message);
   }
 }
