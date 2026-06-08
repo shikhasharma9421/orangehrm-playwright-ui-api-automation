@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { LoginPage } from '../../src/pages/loginPage';
 import { DashboardPage } from '../../src/pages/DashboardPage';
 import { config } from '../../src/utils/config';
@@ -14,27 +14,27 @@ test.describe('Login', () => {
   });
 
   // B1.1
-  test('Successful login', async ({ page }) => {
+  test('Successful login', async () => {
     await loginPage.login(config.username, config.password);
-    await expect(page).toHaveURL(dashboardPage.getDashboardUrl());
+    await dashboardPage.verifyDashboardUrl();
   });
 
   // B1.2
   test('Failed login invalid password', async () => {
     await loginPage.login(config.username, 'wrongPassword');
-    await expect(loginPage.getErrorMessage()).toContainText('Invalid credentials');
+    await loginPage.verifyErrorMessage('Invalid credentials');
   });
 
   // B1.3
   test('Failed login empty fields', async () => {
     await loginPage.clickLogin();
-    await expect(loginPage.getRequiredMessages()).toHaveCount(2);
+    await loginPage.verifyRequiredMessagesCount(2);
   });
 
   // B1.4
   test('Verify required message text', async () => {
     await loginPage.clickLogin();
-    await expect(loginPage.getRequiredMessage(0)).toHaveText('Required');
-    await expect(loginPage.getRequiredMessage(1)).toHaveText('Required');
+    await loginPage.verifyRequiredMessage(0, 'Required');
+    await loginPage.verifyRequiredMessage(1, 'Required');
   });
 });
