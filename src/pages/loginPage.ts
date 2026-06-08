@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import { config } from '../utils/config';
 
 export class LoginPage {
@@ -18,8 +18,6 @@ export class LoginPage {
     this.requiredMessages = page.locator('.oxd-input-field-error-message');
   }
 
-  // ─── Actions ─────────────────────────────────────────────────────────────────
-
   async goto() {
     await this.page.goto(config.uiUrl + '/web/index.php/auth/login');
   }
@@ -34,9 +32,15 @@ export class LoginPage {
     await this.loginButton.click();
   }
 
-  // ─── Getters ─────────────────────────────────────────────────────────────────
+  async verifyErrorMessage(text: string) {
+    await expect(this.errorMessage).toContainText(text);
+  }
 
-  getErrorMessage()                  { return this.errorMessage; }
-  getRequiredMessages()              { return this.requiredMessages; }
-  getRequiredMessage(index: number)  { return this.requiredMessages.nth(index); }
+  async verifyRequiredMessagesCount(count: number) {
+    await expect(this.requiredMessages).toHaveCount(count);
+  }
+
+  async verifyRequiredMessage(index: number, text: string) {
+    await expect(this.requiredMessages.nth(index)).toHaveText(text);
+  }
 }

@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import { config } from '../utils/config';
 
 export class DashboardPage {
@@ -30,61 +30,82 @@ export class DashboardPage {
     await this.page.goto(config.uiUrl + '/web/index.php/dashboard');
   }
 
-  // ─── Getters ─────────────────────────────────────────────────────────────────
-
-  getDashboardUrl()       { return this.dashboardUrl; }
-  getAttendanceUrl()      { return this.attendanceUrl; }
-  getWidgets()            { return this.widgets; }
-  getWidgetHeadings()     { return this.widgetHeadings; }
-  getLeaveSettingsPopup() { return this.leaveSettingsPopup; }
-  getSubUnitCanvas()      { return this.subUnitCanvas; }
-  getLocationCanvas()     { return this.locationCanvas; }
-
-  getMyActionsItems() {
-    return this.widgets.filter({ hasText: 'My Actions' }).locator('li');
-  }
-
-  getQuickLaunchButtons() {
-    return this.widgets.filter({ hasText: 'Quick Launch' }).locator('.oxd-icon-button');
-  }
-
-  getBuzzPost() {
-    return this.widgets.filter({ hasText: 'Buzz Latest Posts' }).locator('p').nth(1);
-  }
-
-  getSubUnitLegendItem(index: number = 0) {
-    return this.subUnitLegendItems.nth(index);
-  }
-
-  getLegendDot(itemText: string): Locator {
-    return this.locationLegendItems
-      .filter({ hasText: itemText })
-      .locator('.orangehrm-chart-legend-dot');
-  }
-
-  getUnassignedLegendItem() {
-    return this.locationLegendItems.filter({ hasText: 'Unassigned' });
-  }
-
-  // ─── Actions ─────────────────────────────────────────────────────────────────
-
-  // B3.8.3
   async clickTimeAtWorkIcon() {
     await this.widgets.filter({ hasText: 'Time at Work' }).locator('.oxd-icon-button').first().click();
   }
 
-  // B3.8.7
   async clickLeaveSettingsIcon() {
     await this.widgets.filter({ hasText: 'Employees on Leave Today' }).locator('.orangehrm-leave-time-icon').click();
   }
 
-  // B3.8.8
   async clickSubUnitLegendItem(index: number = 0) {
     await this.subUnitLegendItems.nth(index).click();
   }
 
-  // B3.8.9
   async clickUnassignedLegendItem() {
     await this.locationLegendItems.filter({ hasText: 'Unassigned' }).click();
   }
+
+  async verifyDashboardUrl() {
+    await expect(this.page).toHaveURL(this.dashboardUrl);
+  }
+
+  async verifyAttendanceUrl() {
+    await expect(this.page).toHaveURL(this.attendanceUrl);
+  }
+
+  async verifyWidgetCount(count: number) {
+    await expect(this.widgets).toHaveCount(count);
+  }
+
+  async verifyWidgetHeadings(texts: string[]) {
+    await expect(this.widgetHeadings).toHaveText(texts);
+  }
+
+  async verifyLeaveSettingsPopupVisible() {
+    await expect(this.leaveSettingsPopup).toBeVisible();
+  }
+
+  async verifySubUnitCanvasVisible() {
+    await expect(this.subUnitCanvas).toBeVisible();
+  }
+
+  async verifyLocationCanvasVisible() {
+    await expect(this.locationCanvas).toBeVisible();
+  }
+
+  async verifyMyActionsItemsVisible() {
+    const items = this.widgets.filter({ hasText: 'My Actions' }).locator('li');
+    const count = await items.count();
+    for (let i = 0; i < count; i++) {
+      await expect(items.nth(i)).toBeVisible();
+    }
+  }
+
+  async verifyQuickLaunchButtonsEnabled() {
+    const buttons = this.widgets.filter({ hasText: 'Quick Launch' }).locator('.oxd-icon-button');
+    const count = await buttons.count();
+    for (let i = 0; i < count; i++) {
+      await expect(buttons.nth(i)).toBeEnabled();
+    }
+  }
+
+  async verifyBuzzPostVisible() {
+    await expect(this.widgets.filter({ hasText: 'Buzz Latest Posts' }).locator('p').nth(1)).toBeVisible();
+  }
+
+  async verifySubUnitLegendItemVisible(index: number = 0) {
+    await expect(this.subUnitLegendItems.nth(index)).toBeVisible();
+  }
+
+  async verifyLegendDotVisible(itemText: string) {
+    await expect(
+      this.locationLegendItems.filter({ hasText: itemText }).locator('.orangehrm-chart-legend-dot')
+    ).toBeVisible();
+  }
+
+  async verifyUnassignedLegendItemVisible() {
+    await expect(this.locationLegendItems.filter({ hasText: 'Unassigned' })).toBeVisible();
+  }
+
 }
