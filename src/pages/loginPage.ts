@@ -1,21 +1,23 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { config } from '../utils/config';
 
 export class LoginPage {
   private page: Page;
-  private usernameField: Locator;
-  private passwordField: Locator;
-  private loginButton: Locator;
-  private errorMessage: Locator;
-  private requiredMessages: Locator;
+  readonly usernameField: Locator;
+  readonly passwordField: Locator;
+  readonly loginButton: Locator;
+  readonly errorMessage: Locator;
+  readonly requiredMessages: Locator;
+  readonly forgotPasswordLink: Locator;
 
   constructor(page: Page) {
-    this.page             = page;
-    this.usernameField    = page.locator('input[name="username"]');
-    this.passwordField    = page.locator('input[name="password"]');
-    this.loginButton      = page.locator('button[type="submit"]');
-    this.errorMessage     = page.locator('.oxd-alert-content-text');
-    this.requiredMessages = page.locator('.oxd-input-field-error-message');
+    this.page               = page;
+    this.usernameField      = page.locator('input[name="username"]');
+    this.passwordField      = page.locator('input[name="password"]');
+    this.loginButton        = page.locator('button[type="submit"]');
+    this.errorMessage       = page.locator('.oxd-alert-content-text');
+    this.requiredMessages   = page.locator('.oxd-input-field-error-message');
+    this.forgotPasswordLink = page.locator('.orangehrm-login-forgot-header');
   }
 
   async goto() {
@@ -32,15 +34,7 @@ export class LoginPage {
     await this.loginButton.click();
   }
 
-  async verifyErrorMessage(text: string) {
-    await expect(this.errorMessage).toContainText(text);
-  }
-
-  async verifyRequiredMessagesCount(count: number) {
-    await expect(this.requiredMessages).toHaveCount(count);
-  }
-
-  async verifyRequiredMessage(index: number, text: string) {
-    await expect(this.requiredMessages.nth(index)).toHaveText(text);
+  async clickForgotPassword() {
+    await this.forgotPasswordLink.click();
   }
 }

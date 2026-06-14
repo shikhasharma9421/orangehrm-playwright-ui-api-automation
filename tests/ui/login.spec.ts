@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../src/pages/loginPage';
 import { DashboardPage } from '../../src/pages/DashboardPage';
 import { config } from '../../src/utils/config';
@@ -22,19 +22,25 @@ test.describe('Login', () => {
   // B1.2
   test('Failed login invalid password', async () => {
     await loginPage.login(config.username, 'wrongPassword');
-    await loginPage.verifyErrorMessage('Invalid credentials');
+    await expect(loginPage.errorMessage).toContainText('Invalid credentials');
   });
 
   // B1.3
   test('Failed login empty fields', async () => {
     await loginPage.clickLogin();
-    await loginPage.verifyRequiredMessagesCount(2);
+    await expect(loginPage.requiredMessages).toHaveCount(2);
   });
 
   // B1.4
   test('Verify required message text', async () => {
     await loginPage.clickLogin();
-    await loginPage.verifyRequiredMessage(0, 'Required');
-    await loginPage.verifyRequiredMessage(1, 'Required');
+    await expect(loginPage.requiredMessages.nth(0)).toHaveText('Required');
+    await expect(loginPage.requiredMessages.nth(1)).toHaveText('Required');
+  });
+
+  // B1.5
+  test('Forgot password link navigates to reset page', async ({ page }) => {
+    await loginPage.clickForgotPassword();
+    await expect(page).toHaveURL(/requestPasswordResetCode/);
   });
 });
