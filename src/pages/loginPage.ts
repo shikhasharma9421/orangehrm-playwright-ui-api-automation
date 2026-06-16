@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import { config } from '../utils/config';
 
 export class LoginPage {
@@ -12,9 +12,9 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page               = page;
-    this.usernameField      = page.locator('input[name="username"]');
-    this.passwordField      = page.locator('input[name="password"]');
-    this.loginButton        = page.locator('button[type="submit"]');
+    this.usernameField      = page.getByRole('textbox', { name: 'Username' });
+    this.passwordField      = page.getByRole('textbox', { name: 'Password' });
+    this.loginButton        = page.getByRole('button', { name: 'Login' });
     this.errorMessage       = page.locator('.oxd-alert-content-text');
     this.requiredMessages   = page.locator('.oxd-input-field-error-message');
     this.forgotPasswordLink = page.locator('.orangehrm-login-forgot-header');
@@ -36,5 +36,22 @@ export class LoginPage {
 
   async clickForgotPassword() {
     await this.forgotPasswordLink.click();
+  }
+
+  async verifyErrorMessage(text: string) {
+    await expect(this.errorMessage).toContainText(text);
+  }
+
+  async verifyRequiredMessageCount(count: number) {
+    await expect(this.requiredMessages).toHaveCount(count);
+  }
+
+  async verifyRequiredMessagesText() {
+    await expect(this.requiredMessages.nth(0)).toHaveText('Required');
+    await expect(this.requiredMessages.nth(1)).toHaveText('Required');
+  }
+
+  async verifyForgotPasswordUrl() {
+    await expect(this.page).toHaveURL(/requestPasswordResetCode/);
   }
 }
