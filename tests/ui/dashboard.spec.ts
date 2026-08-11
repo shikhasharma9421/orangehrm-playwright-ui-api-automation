@@ -67,7 +67,7 @@ test.describe('Dashboard', () => {
     });
 
     test('Verify employee leave data or empty state message is shown', async () => {
-      await dashboard.verifyLeaveDataOrEmptyState();
+      await dashboard.verifyLeaveWidgetRendered();
     });
   });
 
@@ -125,17 +125,17 @@ test.describe('Dashboard', () => {
     });
 
     test('Verify clicking Admin menu navigates to admin page', async () => {
-      await dashboard.clickSidebarAdmin();
+      await dashboard.clickSidebarMenuItem('Admin');
       await dashboard.verifyAdminUrl();
     });
 
     test('Verify clicking PIM navigates to PIM page', async () => {
-      await dashboard.clickSidebarPIM();
+      await dashboard.clickSidebarMenuItem('PIM');
       await dashboard.verifyPIMUrl();
     });
 
     test('Verify clicking home logo returns to dashboard', async () => {
-      await dashboard.clickSidebarAdmin();
+      await dashboard.clickSidebarMenuItem('Admin');
       await dashboard.clickHomeLogo();
       await dashboard.verifyDashboardUrl();
     });

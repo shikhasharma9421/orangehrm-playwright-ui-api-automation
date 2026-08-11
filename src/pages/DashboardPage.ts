@@ -7,29 +7,27 @@ export class DashboardPage {
   readonly widgetHeadings: Locator;
   readonly myActionsItems: Locator;
   readonly quickLaunchButtons: Locator;
-  readonly buzzPost: Locator;
   readonly buzzPostContent: Locator;
-  readonly leaveEmployeeRows: Locator;
-  readonly leaveEmptyState: Locator;
+  readonly employeesOnLeave: Locator;
+  readonly noEmployeesOnLeaveMessage: Locator;
   readonly topBar: Locator;
-  readonly sidebarAdmin: Locator;
-  readonly sidebarPIM: Locator;
+  readonly sidebarMenuItem: Locator;
+  readonly leftBarSearch: Locator;
   readonly homeLogo: Locator;
 
   constructor(page: Page) {
     this.page               = page;
     this.widgets            = page.locator('.oxd-sheet.oxd-sheet--rounded');
-    this.widgetHeadings     = page.locator('.orangehrm-dashboard-widget-header p');
-    this.myActionsItems     = page.locator('.orangehrm-action-widget .oxd-text--p');
-    this.quickLaunchButtons = page.locator('.orangehrm-quick-launch-card button');
-    this.buzzPost           = page.locator('.orangehrm-buzz-newsfeed-post');
-    this.buzzPostContent    = page.locator('.orangehrm-buzz-newsfeed-post .orangehrm-buzz-post-body-content p');
-    this.leaveEmployeeRows  = page.locator('.orangehrm-leave-employee-content');
-    this.leaveEmptyState    = page.locator('.orangehrm-leave-employee-null-state');
-    this.topBar             = page.locator('.oxd-topbar');
-    this.sidebarAdmin       = page.locator('.oxd-main-menu-item').filter({ hasText: 'Admin' });
-    this.sidebarPIM         = page.locator('.oxd-main-menu-item').filter({ hasText: 'PIM' });
-    this.homeLogo           = page.locator('.oxd-brand-banner img');
+    this.widgetHeadings     = page.locator('.orangehrm-dashboard-widget-header');
+    this.myActionsItems     = page.locator('.orangehrm-todo-list-item');
+    this.quickLaunchButtons = page.locator('.oxd-icon-button.orangehrm-quick-launch-icon');
+    this.buzzPostContent    = page.locator('.oxd-grid-item.oxd-grid-item--gutters.orangehrm-buzz-widget-card');
+    this.employeesOnLeave   = page.locator('.orangehrm-dashboard-widget-body-nocontent');
+    this.noEmployeesOnLeaveMessage = page.locator('.orangehrm-dashboard-widget-body-nocontent');
+    this.topBar             = page.locator('.oxd-topbar-header');
+    this.sidebarMenuItem    = page.locator('.oxd-main-menu-item');
+    this.leftBarSearch      = page.locator('.oxd-main-menu-search');
+    this.homeLogo           = page.locator('.oxd-brand-banner');
   }
 
   async goto() {
@@ -84,10 +82,10 @@ export class DashboardPage {
     await expect(this.page).toHaveURL(/leave/);
   }
 
-  async verifyLeaveDataOrEmptyState() {
-    const rows       = await this.leaveEmployeeRows.count();
-    const emptyState = await this.leaveEmptyState.count();
-    expect(rows + emptyState).toBeGreaterThan(0);
+  async verifyLeaveWidgetRendered() {
+    const rows    = await this.employeesOnLeave.count();
+    const message = await this.noEmployeesOnLeaveMessage.count();
+    expect(rows + message).toBeGreaterThan(0);
   }
 
   // ── My Actions ─────────────────────────────────────────────────────────────
@@ -120,7 +118,7 @@ export class DashboardPage {
   // ── Buzz Latest Posts ──────────────────────────────────────────────────────
 
   async verifyBuzzPostVisible() {
-    await expect(this.buzzPost.first()).toBeVisible();
+    await expect(this.buzzPostContent.first()).toBeVisible();
   }
 
   async verifyBuzzPostContentNotEmpty() {
@@ -134,16 +132,16 @@ export class DashboardPage {
     await expect(this.topBar).toBeVisible();
   }
 
-  async clickSidebarAdmin() {
-    await this.sidebarAdmin.click();
+  async clickSidebarMenuItem(menuText: string) {
+    await this.sidebarMenuItem.filter({ hasText: menuText }).click();
+  }
+
+  async searchLeftBarMenu(searchText: string) {
+    await this.leftBarSearch.fill(searchText);
   }
 
   async verifyAdminUrl() {
     await expect(this.page).toHaveURL(/viewAdminModule/);
-  }
-
-  async clickSidebarPIM() {
-    await this.sidebarPIM.click();
   }
 
   async verifyPIMUrl() {
