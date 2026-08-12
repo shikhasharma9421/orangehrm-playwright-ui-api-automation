@@ -1,33 +1,17 @@
-# OrangeHRM Playwright UI + API Automation
+# OrangeHRM Playwright UI + API Automation Framework
 
-A Playwright + TypeScript automation framework for testing the OrangeHRM application through both UI and REST APIs.
+A Playwright and TypeScript automation framework for UI and API testing of the OrangeHRM application.
 
-The framework is designed to support reliable functional, regression, and end-to-end testing with reusable test components and CI execution.
-
-## What is Covered
-
-### UI Testing
-- Login and authentication
-- Dashboard validation
-- Form and field validation
-- Positive and negative scenarios
-- Page Object Model (POM)
-
-### API Testing
-- REST API testing
-- GET, POST, PUT and DELETE requests
-- Request and response validation
-- Status code validation
-- API data validation
+The framework uses Page Object Model, reusable API clients, environment-based configuration, test reporting, and Jenkins CI/CD integration.
 
 ## Tech Stack
 
 - Playwright
 - TypeScript
-- Node.js
-- REST APIs
+- REST API
+- dotenv
 - Jenkins
-- Git / GitHub
+- Git/GitHub
 
 ## Project Structure
 
@@ -36,26 +20,156 @@ src/
 ├── api/
 │   ├── clients/
 │   ├── data/
-│   └── schemas/
-│
+│   └── utils/
 ├── pages/
-│   ├── LoginPage.ts
-│   └── DashboardPage.ts
-│
 └── utils/
-    ├── authHelper.ts
-    └── config.ts
 
 tests/
-├── ui/
-│   ├── login.spec.ts
-│   └── dashboard.spec.ts
-│
-└── api/
-    ├── auth.spec.ts
-    ├── users.spec.ts
-    └── advanced.spec.ts
+├── api/
+└── ui/
 
 playwright.config.ts
 Jenkinsfile
 package.json
+tsconfig.json
+```
+
+## Setup
+
+### Prerequisites
+
+- Node.js 18+ LTS
+- npm
+- Git
+
+Check versions:
+
+```bash
+node --version
+npm --version
+git --version
+```
+
+### Install
+
+Clone the repository:
+
+```bash
+git clone <your-repository-url>
+cd orangehrm-playwright-ui-api-automation
+```
+
+Install dependencies:
+
+```bash
+npm ci
+```
+
+Install Playwright browsers:
+
+```bash
+npx playwright install
+```
+
+For Linux/CI:
+
+```bash
+npx playwright install --with-deps
+```
+
+## Environment Configuration
+
+Create a `.env` file in the project root:
+
+```env
+UI_BASE_URL=https://opensource-demo.orangehrmlive.com
+API_BASE_URL=https://reqres.in
+USERNAME=Admin
+PASSWORD=your_password
+REQRES_API_KEY=your_api_key
+```
+
+Do not commit real passwords, API keys, or tokens to GitHub.
+
+## Run Tests
+
+Run all tests:
+
+```bash
+npx playwright test
+```
+
+Run UI tests:
+
+```bash
+npx playwright test tests/ui/
+```
+
+Run API tests:
+
+```bash
+npx playwright test tests/api/
+```
+
+Run a specific test:
+
+```bash
+npx playwright test tests/ui/login.spec.ts
+```
+
+Run tests in headed mode:
+
+```bash
+npx playwright test --headed
+```
+
+Run in debug mode:
+
+```bash
+npx playwright test --debug
+```
+
+## Test Report
+
+Open the Playwright HTML report:
+
+```bash
+npx playwright show-report
+```
+
+Screenshots and traces are captured for failed tests and stored in the test results.
+
+## Testing Coverage
+
+### UI
+
+- Login and authentication
+- Dashboard validation
+- Form validation
+- Positive and negative scenarios
+- End-to-end workflows
+- Page Object Model
+
+### API
+
+- GET, POST, PUT and DELETE requests
+- Request and response validation
+- Status code validation
+- Positive and negative scenarios
+- API data validation
+
+## CI/CD
+
+The project includes a Jenkins pipeline that:
+
+1. Checks out the code
+2. Installs dependencies
+3. Installs Playwright
+4. Runs automated tests
+5. Generates test reports
+6. Archives test results
+
+## Author
+
+Shikha Sharma  
+Senior Test Engineer | QA Automation | Playwright | API Testing
