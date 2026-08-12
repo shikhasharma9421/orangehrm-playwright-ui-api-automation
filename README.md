@@ -93,39 +93,23 @@ Do not commit real passwords, API keys, or tokens to GitHub.
 
 ## Run Tests
 
-Run all tests:
-
 ```bash
+# Run all tests
 npx playwright test
-```
 
-Run UI tests:
-
-```bash
+# Run UI tests
 npx playwright test tests/ui/
-```
 
-Run API tests:
-
-```bash
+# Run API tests
 npx playwright test tests/api/
-```
 
-Run a specific test:
-
-```bash
+# Run a specific test
 npx playwright test tests/ui/login.spec.ts
-```
 
-Run tests in headed mode:
-
-```bash
+# Run tests in headed mode
 npx playwright test --headed
-```
 
-Run in debug mode:
-
-```bash
+# Run tests in debug mode
 npx playwright test --debug
 ```
 
