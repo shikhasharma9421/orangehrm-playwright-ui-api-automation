@@ -1,7 +1,5 @@
 # OrangeHRM Playwright UI + API Automation Framework
-
 A Playwright and TypeScript-based automation framework for testing **OrangeHRM UI workflows** and **ReqRes REST APIs**.
-
 The framework covers UI automation using the **Page Object Model (POM)** and API automation using reusable API clients, with environment-based configuration, test reporting, and Jenkins CI/CD integration.
 
 ## Tech Stack
@@ -13,7 +11,6 @@ The framework covers UI automation using the **Page Object Model (POM)** and API
 - Git/GitHub
 
 ## Project Structure
-
 ```text
 src/
 ├── api/
@@ -34,44 +31,40 @@ tsconfig.json
 ```
 
 ## Setup
-
 ### Prerequisites
 - Node.js 18+ LTS
 - npm
 - Git
 
 Check versions:
+
 ```bash
 node --version
 npm --version
 git --version
 ```
 
-### Install
-
+### Installation
 Clone the repository:
+
 ```bash
 git clone <your-repository-url>
 cd orangehrm-playwright-ui-api-automation
 ```
 
 Install dependencies:
+
 ```bash
 npm ci
 ```
 
 Install Playwright browsers:
+
 ```bash
 npx playwright install
 ```
 
-For Linux/CI:
-```bash
-npx playwright install --with-deps
-```
-
 ## Environment Configuration
-
 Create a `.env` file in the project root:
 
 ```env
@@ -85,7 +78,6 @@ REQRES_API_KEY=your_api_key
 Do not commit real passwords, API keys, or tokens to GitHub.
 
 ## Run Tests
-
 ```bash
 # Run all tests
 npx playwright test
