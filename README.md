@@ -1,6 +1,8 @@
-# OrangeHRM Playwright UI + API Automation Framework
-A Playwright and TypeScript-based automation framework for testing **OrangeHRM UI workflows** and **ReqRes REST APIs**.
-The framework covers UI automation using the **Page Object Model (POM)** and API automation using reusable API clients, with environment-based configuration, test reporting, and Jenkins CI/CD integration.
+## OrangeHRM Playwright UI + API Automation Framework
+Playwright + TypeScript test automation framework covering:
+
+- **UI:** [OrangeHRM Demo](https://opensource-demo.orangehrmlive.com) — login and dashboard flows using the Page Object Model.
+- **API:** [ReqRes](https://reqres.in) — authentication and user CRUD API testing using a reusable REST client.
 
 ## Tech Stack
 - Playwright
