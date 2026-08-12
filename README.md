@@ -1,11 +1,10 @@
 # OrangeHRM Playwright UI + API Automation Framework
 
-A Playwright and TypeScript automation framework for UI and API testing of the OrangeHRM application.
+A Playwright and TypeScript-based automation framework for testing **OrangeHRM UI workflows** and **ReqRes REST APIs**.
 
-The framework uses Page Object Model, reusable API clients, environment-based configuration, test reporting, and Jenkins CI/CD integration.
+The framework covers UI automation using the **Page Object Model (POM)** and API automation using reusable API clients, with environment-based configuration, test reporting, and Jenkins CI/CD integration.
 
 ## Tech Stack
-
 - Playwright
 - TypeScript
 - REST API
@@ -37,13 +36,11 @@ tsconfig.json
 ## Setup
 
 ### Prerequisites
-
 - Node.js 18+ LTS
 - npm
 - Git
 
 Check versions:
-
 ```bash
 node --version
 npm --version
@@ -53,26 +50,22 @@ git --version
 ### Install
 
 Clone the repository:
-
 ```bash
 git clone <your-repository-url>
 cd orangehrm-playwright-ui-api-automation
 ```
 
 Install dependencies:
-
 ```bash
 npm ci
 ```
 
 Install Playwright browsers:
-
 ```bash
 npx playwright install
 ```
 
 For Linux/CI:
-
 ```bash
 npx playwright install --with-deps
 ```
@@ -114,7 +107,6 @@ npx playwright test --debug
 ```
 
 ## Test Report
-
 Open the Playwright HTML report:
 
 ```bash
@@ -126,7 +118,6 @@ Screenshots and traces are captured for failed tests and stored in the test resu
 ## Testing Coverage
 
 ### UI
-
 - Login and authentication
 - Dashboard validation
 - Form validation
@@ -135,7 +126,6 @@ Screenshots and traces are captured for failed tests and stored in the test resu
 - Page Object Model
 
 ### API
-
 - GET, POST, PUT and DELETE requests
 - Request and response validation
 - Status code validation
@@ -143,7 +133,6 @@ Screenshots and traces are captured for failed tests and stored in the test resu
 - API data validation
 
 ## CI/CD
-
 The project includes a Jenkins pipeline that:
 
 1. Checks out the code
@@ -154,6 +143,5 @@ The project includes a Jenkins pipeline that:
 6. Archives test results
 
 ## Author
-
 Shikha Sharma  
 Senior Test Engineer | QA Automation | Playwright | API Testing
