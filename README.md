@@ -94,10 +94,10 @@ npm run typecheck
 
 ## Configuration Notes
 
-- Tests run against `chromium` only (see `playwright.config.ts` → `projects`).
-- `headless: false` locally — the browser is visible during test runs.
-- On CI (`process.env.CI` set), tests retry twice and run with a single worker; locally there are no retries and workers default to Playwright's auto-detection.
-- Screenshots are captured only on failure; video is retained only on failure.
+- Tests run across multiple projects (see `playwright.config.ts` → `projects`): `chrome`, `edge`, `firefox`, `webkit`, `mobile-chrome`, `mobile-safari`, `tablet`. Target one with `npx playwright test --project=<name>` or `npm run test:<name>`.
+- Headless on CI (`process.env.CI` set), headed locally so you can watch the run.
+- On CI, tests retry twice and run with a single worker; locally there are no retries and workers default to Playwright's auto-detection.
+- Screenshots and traces are captured only on failure; video is retained only on failure.
 - API requests authenticate via the `x-api-key` header, read from `REQRES_API_KEY`.
 
 ## CI (Jenkins)
